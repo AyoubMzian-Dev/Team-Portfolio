@@ -65,8 +65,8 @@ export default async function AboutPage() {
 
       {/* Team Members */}
       <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading title="Meet the Team" subtitle="The talented individuals behind our success" centered />
+        <div className="max-w-7xl mx-auto flex flex-col justify-center text-center px-4 sm:px-6 lg:px-8">
+          <SectionHeading title="Meet the Team"  subtitle="The talented individuals behind our success" flex/>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member) => (

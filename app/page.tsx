@@ -283,7 +283,7 @@ export default async function HomePage() {
                     Get In Touch
                   </Button>
                 </Link>
-                <a href="mailto:hello@devteam.com">
+                <a href="ayoubmziandeveloper@gmail.com">
                   <Button
                     variant="outline"
                     size="lg"
@@ -298,11 +298,11 @@ export default async function HomePage() {
               <div className="flex justify-center space-x-6 text-muted-foreground">
                 <div className="flex items-center space-x-2">
                   <Mail className="h-4 w-4" />
-                  <span className="text-sm">hello@devteam.com</span>
+                  <span className="text-sm">ayoubmziandeveloper@gmail.com</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Phone className="h-4 w-4" />
-                  <span className="text-sm">+1 (555) 123-4567</span>
+                  <span className="text-sm">+212 773473782</span>
                 </div>
               </div>
             </div>

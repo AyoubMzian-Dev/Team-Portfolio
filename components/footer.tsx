@@ -5,10 +5,10 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [
-    { icon: Github, href: "https://github.com/devteam", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com/company/devteam", label: "LinkedIn" },
-    { icon: Twitter, href: "https://twitter.com/devteam", label: "Twitter" },
-    { icon: Mail, href: "mailto:hello@devteam.com", label: "Email" },
+    { icon: Github, href: "https://github.com/AyoubMzian-Dev", label: "GitHub" },
+    { icon: Linkedin, href: "https://linkedin.com/company/ayoub-developer-711040305", label: "LinkedIn" },
+    { icon: Twitter, href: "https://twitter.com/Ayoub_Mzian", label: "Twitter" },
+    { icon: Mail, href: "ayoubmziandeveloper@gmail.com", label: "Email" },
   ]
 
   return (
