@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Menu, X, Code2, Home, Users, FolderOpen, Settings, FileText, Mail } from "lucide-react"
+import { Menu, X, Code2, Home, Users, FolderOpen, Settings, FileText, Mail, Gift } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function Navbar() {
@@ -12,6 +12,7 @@ export default function Navbar() {
     { href: "/", label: "Home", icon: Home },
     { href: "/about", label: "About", icon: Users },
     { href: "/projects", label: "Projects", icon: FolderOpen },
+    { href: "/offers", label: "Offers", icon: Gift },
     { href: "/services", label: "Services", icon: Settings },
     { href: "/blog", label: "Blog", icon: FileText },
     { href: "/contact", label: "Contact", icon: Mail },
