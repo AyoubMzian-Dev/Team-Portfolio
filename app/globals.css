@@ -1,28 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 40% 2%;
-    --foreground: 0 0% 100%;
-    --card: 210 40% 4%;
-    --card-foreground: 0 0% 100%;
-    --popover: 210 40% 4%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 210 40% 2%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 8%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 210 40% 8%;
-    --muted-foreground: 0 0% 64%;
-    --accent: 210 40% 8%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 220 30% 5%;
+    --foreground: 0 0% 98%;
+
+    --card: 220 25% 8%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 220 25% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 195 100% 50%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 220 25% 12%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 220 25% 15%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 195 100% 60%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 40% 12%;
-    --input: 210 40% 12%;
-    --ring: 210 40% 20%;
+
+    --border: 220 25% 18%;
+    --input: 220 25% 18%;
+    --ring: 195 100% 50%;
+
     --radius: 0.5rem;
   }
 }
@@ -31,9 +45,10 @@
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-primary text-foreground font-sans;
-    background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+    @apply bg-background text-foreground font-sans;
+    background: linear-gradient(135deg, hsl(220, 30%, 5%), hsl(220, 25%, 8%));
     min-height: 100vh;
   }
 }
@@ -44,20 +59,27 @@
   }
 
   .glow-effect {
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
     transition: box-shadow 0.3s ease;
   }
 
   .glow-effect:hover {
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+    box-shadow: 0 0 30px rgba(0, 191, 255, 0.6);
   }
 
   .text-gradient {
-    background: linear-gradient(to right, #00d4ff, #00ff88, #8b5cf6);
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(to right, #00bfff, #00ced1, #1e90ff);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+  }
+
+  .bg-gradient {
+    background: linear-gradient(to right, #00bfff, #00ced1, #1e90ff);
+    background-size: 200% 200%;
+    animation: gradientAnimation 5s ease infinite;
   }
 }
 
@@ -67,14 +89,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e1e1e;
+  background: hsl(220, 25%, 8%);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00d4ff;
+  background: #00bfff;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00b8e6;
+  background: #00ced1;
 }

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss"
+import { theme } from "./lib/theme-config"
 
 const config: Config = {
   darkMode: ["class"],
@@ -26,25 +27,25 @@ const config: Config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#121212",
-          foreground: "#ffffff",
+          DEFAULT: theme.colors.primary,
+          foreground: theme.colors.text,
         },
         secondary: {
-          DEFAULT: "#1e1e1e",
-          foreground: "#a1a1aa",
+          DEFAULT: theme.colors.secondary,
+          foreground: theme.colors.textMuted,
         },
         accent: {
-          DEFAULT: "#00d4ff",
-          green: "#00ff88",
-          purple: "#8b5cf6",
+          DEFAULT: theme.colors.accent,
+          teal: theme.colors.accentTeal,
+          cyan: theme.colors.accentCyan,
         },
         muted: {
-          DEFAULT: "#27272a",
-          foreground: "#a1a1aa",
+          DEFAULT: theme.colors.border,
+          foreground: theme.colors.textMuted,
         },
         card: {
-          DEFAULT: "rgba(30, 30, 30, 0.7)",
-          foreground: "#ffffff",
+          DEFAULT: theme.glassmorphism.background,
+          foreground: theme.colors.text,
         },
       },
       backdropBlur: {
@@ -65,8 +66,8 @@ const config: Config = {
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
         glow: {
-          "0%": { boxShadow: "0 0 20px rgba(0, 212, 255, 0.3)" },
-          "100%": { boxShadow: "0 0 30px rgba(0, 212, 255, 0.6)" },
+          "0%": { boxShadow: `0 0 20px ${theme.colors.accent}30` },
+          "100%": { boxShadow: `0 0 30px ${theme.colors.accent}60` },
         },
       },
     },

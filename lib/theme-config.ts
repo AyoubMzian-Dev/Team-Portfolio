@@ -1,17 +1,19 @@
 export const theme = {
   colors: {
-    primary: "#121212",
-    secondary: "#1e1e1e",
-    accent: "#00d4ff", // Electric blue
-    accentGreen: "#00ff88", // Neon green
-    accentPurple: "#8b5cf6", // Purple
-    text: "#ffffff",
-    textMuted: "#a1a1aa",
-    border: "#27272a",
+    primary: "#000000",        // True black for background
+    secondary: "#0D0D0D",      // Near-black for cards/sections
+    accent: "#00BFFF",         // Logo blue (Deep Sky Blue)
+    accentGradientStart: "#00BFFF", // Start of gradient (bright blue)
+    accentGradientEnd: "#B0E0E6",   // End of gradient (light blue/cyan tint)
+    accentTeal: "#00CED1",     // Dark Turquoise - complements the blue theme
+    accentCyan: "#1E90FF",     // Dodger Blue - slightly deeper blue variant
+    text: "#FFFFFF",           // Pure white text
+    textMuted: "#B0B0B0",      // Slightly cooler muted text
+    border: "#1F1F1F",         // Soft dark border
   },
   glassmorphism: {
-    background: "rgba(30, 30, 30, 0.7)",
-    border: "rgba(255, 255, 255, 0.1)",
-    backdrop: "blur(10px)",
+    background: "rgba(0, 0, 0, 0.6)",         // Transparent black
+    border: "rgba(255, 255, 255, 0.08)",      // Subtle light border
+    backdrop: "blur(14px)",                   // Slightly stronger blur for depth
   },
 }

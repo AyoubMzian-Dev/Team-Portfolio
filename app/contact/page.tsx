@@ -7,27 +7,27 @@ export default function ContactPage() {
     {
       icon: Mail,
       title: "Email",
-      value: "hello@devteam.com",
-      href: "mailto:hello@devteam.com",
+      value: "web.empire.dev@gmail.com",
+      href: "web.empire.dev@gmail.com",
     },
     {
       icon: Phone,
       title: "Phone",
-      value: "+1 (555) 123-4567",
-      href: "tel:+15551234567",
+      value: "+212 773473782",
+      href: "tel: 0773473782",
     },
     {
       icon: MapPin,
       title: "Location",
-      value: "San Francisco, CA",
+      value: "Tanger, Morocco",
       href: "#",
     },
   ]
 
   const socialLinks = [
     { icon: Github, href: "https://github.com/devteam", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com/company/devteam", label: "LinkedIn" },
-    { icon: Twitter, href: "https://twitter.com/devteam", label: "Twitter" },
+    { icon: Linkedin, href: "https://linkedin.com/company/webempire", label: "LinkedIn" },
+    { icon: Twitter, href: "https://twitter.com/webempire", label: "Twitter" },
   ]
 
   return (

@@ -2,7 +2,7 @@ import TechIcon from "./tech-icons"
 
 interface TechBadgeProps {
   tech: string
-  variant?: "default" | "accent" | "green" | "purple"
+  variant?: "default" | "accent" | "teal" | "cyan"
   showIcon?: boolean
   size?: "sm" | "md" | "lg"
 }
@@ -11,8 +11,8 @@ export default function TechBadge({ tech, variant = "default", showIcon = true, 
   const variants = {
     default: "bg-muted/50 text-muted-foreground border-muted hover:bg-muted/70",
     accent: "bg-accent/10 text-accent border-accent/20 hover:bg-accent/20",
-    green: "bg-accent-green/10 text-accent-green border-accent-green/20 hover:bg-accent-green/20",
-    purple: "bg-accent-purple/10 text-accent-purple border-accent-purple/20 hover:bg-accent-purple/20",
+    teal: "bg-accent-teal/10 text-accent-teal border-accent-teal/20 hover:bg-accent-teal/20",
+    cyan: "bg-accent-cyan/10 text-accent-cyan border-accent-cyan/20 hover:bg-accent-cyan/20",
   }
 
   const sizes = {

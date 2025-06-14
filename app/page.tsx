@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import TechBadge from "@/components/tech-badge"
 import ProjectCard from "@/components/project-card"
 import { sql } from "@/lib/db"
+import { theme } from "@/lib/theme-config"
 
 async function getFeaturedProjects() {
   const projects = await sql`
@@ -48,21 +49,38 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-primary">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,212,255,0.1),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(139,92,246,0.1),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(0,255,136,0.1),transparent_50%)]" />
+        <div className="absolute inset-0" style={{ 
+          background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary}, ${theme.colors.primary})` 
+        }}>
+          <div 
+            className="absolute inset-0" 
+            style={{ 
+              background: `radial-gradient(circle at 50% 50%, ${theme.colors.accent}1A, transparent 50%)` 
+            }} 
+          />
+          <div 
+            className="absolute inset-0" 
+            style={{ 
+              background: `radial-gradient(circle at 80% 20%, ${theme.colors.accentCyan}1A, transparent 50%)` 
+            }} 
+          />
+          <div 
+            className="absolute inset-0" 
+            style={{ 
+              background: `radial-gradient(circle at 20% 80%, ${theme.colors.accentTeal}1A, transparent 50%)` 
+            }} 
+          />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative font-Desplay z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-fade-in">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-              <span className="text-foreground">We Build</span>
+              <span style={{ color: theme.colors.text }}>We Build</span>
               <br />
-              <span className="text-gradient">Amazing Web Apps</span>
+              <span className=" text-gradient">Amazing Web Apps</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto" style={{ color: theme.colors.textMuted }}>
               A passionate team of developers creating modern, scalable, and beautiful web applications using
               cutting-edge technologies.
             </p>
@@ -71,7 +89,11 @@ export default async function HomePage() {
               <Link href="/projects">
                 <Button
                   size="lg"
-                  className="bg-accent hover:bg-accent/90 text-primary font-semibold px-8 py-3 glow-effect"
+                  className="font-semibold px-8 py-3 glow-effect"
+                  style={{
+                    backgroundColor: theme.colors.accent,
+                    color: theme.colors.primary,
+                  }}
                 >
                   View Our Work
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -81,7 +103,11 @@ export default async function HomePage() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-accent text-accent hover:bg-accent hover:text-primary px-8 py-3"
+                  className="px-8 py-3"
+                  style={{
+                    borderColor: theme.colors.accent,
+                    color: theme.colors.accent,
+                  }}
                 >
                   Get In Touch
                 </Button>
@@ -99,8 +125,14 @@ export default async function HomePage() {
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-accent rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-accent rounded-full mt-2 animate-pulse" />
+          <div 
+            className="w-6 h-10 border-2 rounded-full flex justify-center"
+            style={{ borderColor: theme.colors.accent }}
+          >
+            <div 
+              className="w-1 h-3 rounded-full mt-2 animate-pulse"
+              style={{ backgroundColor: theme.colors.accent }}
+            />
           </div>
         </div>
       </section>
@@ -110,7 +142,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">Why Choose Us</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: theme.colors.textMuted }}>
               We combine technical expertise with creative vision to deliver exceptional web solutions.
             </p>
           </div>
@@ -118,11 +150,18 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="glass-card p-6 text-center group hover:scale-105 transition-all duration-300">
-                <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/30 transition-colors">
-                  <feature.icon className="h-6 w-6 text-accent" />
+                <div 
+                  className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:opacity-80 transition-opacity"
+                  style={{ backgroundColor: `${theme.colors.accent}33` }}
+                >
+                  <feature.icon className="h-6 w-6" style={{ color: theme.colors.accent }} />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground text-sm">{feature.description}</p>
+                <h3 className="text-lg font-semibold mb-2" style={{ color: theme.colors.text }}>
+                  {feature.title}
+                </h3>
+                <p className="text-sm" style={{ color: theme.colors.textMuted }}>
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
@@ -134,7 +173,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">Featured Projects</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: theme.colors.textMuted }}>
               Showcasing our latest and greatest work that demonstrates our expertise and creativity.
             </p>
           </div>
@@ -150,7 +189,10 @@ export default async function HomePage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-accent text-accent hover:bg-accent hover:text-primary"
+                style={{
+                  borderColor: theme.colors.accent,
+                  color: theme.colors.accent,
+                }}
               >
                 View All Projects
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -165,7 +207,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">What We Do</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: theme.colors.textMuted }}>
               From concept to deployment, we provide comprehensive web development services.
             </p>
           </div>
@@ -176,49 +218,55 @@ export default async function HomePage() {
                 icon: Code2,
                 title: "Frontend Development",
                 description: "Modern, responsive interfaces with React, Next.js, and cutting-edge CSS frameworks.",
-                color: "accent",
+                color: theme.colors.accent,
               },
               {
                 icon: Server,
                 title: "Backend Development",
                 description: "Robust APIs, databases, and server-side solutions built for scale.",
-                color: "green",
+                color: theme.colors.accentTeal,
               },
               {
                 icon: Palette,
                 title: "UI/UX Design",
                 description: "Beautiful, intuitive designs that enhance user experience and engagement.",
-                color: "purple",
+                color: theme.colors.accentCyan,
               },
               {
                 icon: Smartphone,
                 title: "Mobile Development",
                 description: "Cross-platform mobile apps that work seamlessly across all devices.",
-                color: "accent",
+                color: theme.colors.accent,
               },
               {
                 icon: Search,
                 title: "SEO Optimization",
                 description: "Improve search rankings and drive organic traffic to your website.",
-                color: "green",
+                color: theme.colors.accentTeal,
               },
               {
                 icon: Zap,
                 title: "Performance",
                 description: "Lightning-fast websites with exceptional user experiences.",
-                color: "purple",
+                color: theme.colors.accentCyan,
               },
             ].map((service, index) => (
               <div key={index} className="glass-card p-6 group hover:scale-105 transition-all duration-300">
                 <div
-                  className={`w-12 h-12 bg-${service.color}/20 rounded-lg flex items-center justify-center mb-4 group-hover:bg-${service.color}/30 transition-colors`}
+                  className="w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:opacity-80 transition-opacity"
+                  style={{ backgroundColor: `${service.color}33` }}
                 >
-                  <service.icon className={`h-6 w-6 text-${service.color}`} />
+                  <service.icon className="h-6 w-6" style={{ color: service.color }} />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                <h3 
+                  className="text-lg font-semibold mb-2 transition-colors"
+                  style={{ color: theme.colors.text }}
+                >
                   {service.title}
                 </h3>
-                <p className="text-muted-foreground text-sm">{service.description}</p>
+                <p className="text-sm" style={{ color: theme.colors.textMuted }}>
+                  {service.description}
+                </p>
               </div>
             ))}
           </div>
@@ -228,7 +276,10 @@ export default async function HomePage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-accent text-accent hover:bg-accent hover:text-primary"
+                style={{
+                  borderColor: theme.colors.accent,
+                  color: theme.colors.accent,
+                }}
               >
                 View All Services
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -253,7 +304,9 @@ export default async function HomePage() {
                   <div className="text-3xl md:text-4xl font-bold text-gradient mb-2 group-hover:scale-110 transition-transform">
                     {stat.number}
                   </div>
-                  <div className="text-muted-foreground text-sm">{stat.label}</div>
+                  <div className="text-sm" style={{ color: theme.colors.textMuted }}>
+                    {stat.label}
+                  </div>
                 </div>
               ))}
             </div>
@@ -266,10 +319,15 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="glass-card p-12 text-center relative overflow-hidden">
             {/* Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-accent-green/10 to-accent-purple/10" />
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(to right, ${theme.colors.accent}1A, ${theme.colors.accentTeal}1A, ${theme.colors.accentCyan}1A)`
+              }}
+            />
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-6">Ready to Start Your Project?</h2>
-              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: theme.colors.textMuted }}>
                 Let's discuss how we can help bring your vision to life. Get in touch with our team today.
               </p>
 
@@ -277,17 +335,25 @@ export default async function HomePage() {
                 <Link href="/contact">
                   <Button
                     size="lg"
-                    className="bg-accent hover:bg-accent/90 text-primary font-semibold px-8 py-3 glow-effect"
+                    className="font-semibold px-8 py-3 glow-effect"
+                    style={{
+                      backgroundColor: theme.colors.accent,
+                      color: theme.colors.primary,
+                    }}
                   >
                     <Mail className="mr-2 h-5 w-5" />
                     Get In Touch
                   </Button>
                 </Link>
-                <a href="ayoubmziandeveloper@gmail.com">
+                <a href="mailto:ayoubmziandeveloper@gmail.com">
                   <Button
                     variant="outline"
                     size="lg"
-                    className="border-accent text-accent hover:bg-accent hover:text-primary px-8 py-3"
+                    className="px-8 py-3"
+                    style={{
+                      borderColor: theme.colors.accent,
+                      color: theme.colors.accent,
+                    }}
                   >
                     <Phone className="mr-2 h-5 w-5" />
                     Call Us Now
@@ -295,7 +361,7 @@ export default async function HomePage() {
                 </a>
               </div>
 
-              <div className="flex justify-center space-x-6 text-muted-foreground">
+              <div className="flex justify-center space-x-6" style={{ color: theme.colors.textMuted }}>
                 <div className="flex items-center space-x-2">
                   <Mail className="h-4 w-4" />
                   <span className="text-sm">ayoubmziandeveloper@gmail.com</span>
