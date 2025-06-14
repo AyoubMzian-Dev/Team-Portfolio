@@ -1,5 +1,4 @@
 
-"use client"
 
 import { LucideIcon } from "lucide-react"
 import { theme } from "@/lib/theme-config"

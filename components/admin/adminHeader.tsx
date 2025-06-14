@@ -1,5 +1,4 @@
 
-"use client"
 
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -42,15 +41,12 @@ export default function AdminHeader({ isSidebarOpen, setIsSidebarOpen }: AdminHe
           <Button
             variant="outline"
             size="sm"
-            asChild
             style={{
               borderColor: theme.colors.accent,
               color: theme.colors.accent,
             }}
           >
-            <a href="/" target="_blank" rel="noopener noreferrer">
-              View Site
-            </a>
+            View Site
           </Button>
         </div>
       </div>

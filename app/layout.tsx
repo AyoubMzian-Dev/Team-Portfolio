@@ -2,8 +2,8 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
+import ConditionalNavbar from "@/components/conditional-navbar"
+import ConditionalFooter from "@/components/conditional-footer"
 import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -24,9 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <Navbar />
+        <ConditionalNavbar />
         <main>{children}</main>
-        <Footer />
+        <ConditionalFooter />
         <Toaster />
       </body>
     </html>

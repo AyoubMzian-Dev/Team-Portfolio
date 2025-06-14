@@ -7,9 +7,16 @@ import { Button } from "@/components/ui/button"
 import { theme } from "@/lib/theme-config"
 import Image from "next/image"
 import logo from "@/public/logo.png" // Adjust the path to your logo image
+import { usePathname } from "next/navigation"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+  
+  // Don't show navbar on admin routes
+  if (pathname?.startsWith('/admin')) {
+    return null
+  }
 
   const navItems = [
     { href: "/", label: "Home", icon: Home },

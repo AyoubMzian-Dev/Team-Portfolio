@@ -1,9 +1,12 @@
+
 "use client"
 
 import AdminDashboardWelcome from "@/components/admin/adminDashboardWelcom"
 import AdminDashboardStats from "@/components/admin/adminDashboardStats"
 import AdminRecentActivity from "@/components/admin/adminRecentActivity"
 import AdminQuickAction from "@/components/admin/adminQuickAction"
+import RoleGuard from "@/components/admin/role-guard"
+import { Permission } from "@/lib/permissions"
 
 export default function AdminDashboard() {
   return (
@@ -11,12 +14,16 @@ export default function AdminDashboard() {
       {/* Welcome Section */}
       <AdminDashboardWelcome />
 
-      {/* Stats Grid */}
-      <AdminDashboardStats />
+      {/* Stats Grid - All roles can see stats */}
+      <RoleGuard permission={Permission.VIEW_DASHBOARD}>
+        <AdminDashboardStats />
+      </RoleGuard>
 
       {/* Recent Activity & Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <AdminRecentActivity />
+        <RoleGuard permission={Permission.VIEW_DASHBOARD}>
+          <AdminRecentActivity />
+        </RoleGuard>
         <AdminQuickAction />
       </div>
     </div>
