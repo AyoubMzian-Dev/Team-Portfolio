@@ -12,7 +12,7 @@ interface AdminHeaderProps {
 export default function AdminHeader({ isSidebarOpen, setIsSidebarOpen }: AdminHeaderProps) {
   return (
     <header 
-      className="glass-card border-b rounded-none p-4"
+      className="glass-card border-b rounded-none py-6 p-4"
       style={{ 
         background: theme.glassmorphism.background,
         borderColor: theme.colors.border 

@@ -8,10 +8,14 @@ import { theme } from "@/lib/theme-config"
 import Image from "next/image"
 import logo from "@/public/logo.png" // Adjust the path to your logo image
 import { usePathname } from "next/navigation"
+import { useRenderTracker } from "@/hooks/use-render-tracker"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
+  
+  // Track renders for performance monitoring
+  useRenderTracker('Navbar', { pathname, isOpen })
   
   // Don't show navbar on admin routes
   if (pathname?.startsWith('/admin')) {

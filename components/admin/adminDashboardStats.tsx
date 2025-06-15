@@ -1,4 +1,4 @@
-"use client"
+
 
 import { BarChart3, Users, FolderOpen, Mail, Eye } from "lucide-react"
 import { theme } from "@/lib/theme-config"

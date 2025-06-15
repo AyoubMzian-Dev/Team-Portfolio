@@ -1,0 +1,227 @@
+"use server"
+
+import { sql } from "@/lib/db"
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
+import { z } from "zod"
+
+// Types
+export interface Project {
+  id: number
+  title: string
+  description: string
+  long_description?: string
+  image_url?: string
+  demo_url?: string
+  github_url?: string
+  tech_stack: string[]
+  category?: string
+  status?: string
+  featured: boolean
+  created_at: Date
+  updated_at: Date
+}
+
+// Validation schemas
+const ProjectSchema = z.object({
+  title: z.string().min(1, "Title is required").max(100, "Title too long"),
+  description: z.string().min(1, "Description is required").max(500, "Description too long"),
+  long_description: z.string().optional(),
+  image_url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  demo_url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  github_url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  tech_stack: z.array(z.string()).min(1, "At least one technology is required"),
+  category: z.string().optional(),
+  status: z.enum(["draft", "published", "archived"]).optional(),
+  featured: z.boolean().default(false),
+})
+
+const CreateProjectSchema = ProjectSchema
+const UpdateProjectSchema = ProjectSchema.partial()
+
+// Server Actions
+export async function getProjects(): Promise<Project[]> {
+  try {
+    const projects = await sql`
+      SELECT * FROM projects 
+      ORDER BY featured DESC, created_at DESC
+    `
+    return projects.map(project => ({
+      ...project,
+      tech_stack: Array.isArray(project.tech_stack) ? project.tech_stack : JSON.parse(project.tech_stack || '[]')
+    }))
+  } catch (error) {
+    console.error("Error fetching projects:", error)
+    throw new Error("Failed to fetch projects")
+  }
+}
+
+export async function getProject(id: number): Promise<Project | null> {
+  try {
+    const [project] = await sql`
+      SELECT * FROM projects WHERE id = ${id}
+    `
+    
+    if (!project) return null
+    
+    return {
+      ...project,
+      tech_stack: Array.isArray(project.tech_stack) ? project.tech_stack : JSON.parse(project.tech_stack || '[]')
+    }
+  } catch (error) {
+    console.error("Error fetching project:", error)
+    throw new Error("Failed to fetch project")
+  }
+}
+
+export async function createProject(data: any): Promise<Project> {
+  try {
+    const validatedData = CreateProjectSchema.parse(data)
+
+    const [newProject] = await sql`
+      INSERT INTO projects (
+        title, 
+        description, 
+        long_description,
+        image_url, 
+        demo_url, 
+        github_url, 
+        tech_stack, 
+        category,
+        status,
+        featured,
+        created_at,
+        updated_at
+      )
+      VALUES (
+        ${validatedData.title},
+        ${validatedData.description},
+        ${validatedData.long_description || null},
+        ${validatedData.image_url || null},
+        ${validatedData.demo_url || null},
+        ${validatedData.github_url || null},
+        ${JSON.stringify(validatedData.tech_stack)},
+        ${validatedData.category || null},
+        ${validatedData.status || 'draft'},
+        ${validatedData.featured},
+        NOW(),
+        NOW()
+      )
+      RETURNING *
+    `
+
+    revalidatePath("/admin/projects")
+    revalidatePath("/projects")
+    revalidatePath("/")
+    
+    return {
+      ...newProject,
+      tech_stack: Array.isArray(newProject.tech_stack) ? newProject.tech_stack : JSON.parse(newProject.tech_stack || '[]')
+    }
+  } catch (error) {
+    console.error("Error creating project:", error)
+    if (error instanceof z.ZodError) {
+      throw new Error(`Validation error: ${error.errors.map(e => e.message).join(", ")}`)
+    }
+    throw new Error("Failed to create project")
+  }
+}
+
+export async function updateProject(id: number, data: any): Promise<Project> {
+  try {
+    const validatedData = UpdateProjectSchema.parse(data)
+
+    // Build dynamic update query
+    const updateFields = []
+    const values = []
+    
+    Object.entries(validatedData).forEach(([key, value]) => {
+      if (value !== undefined) {
+        if (key === 'tech_stack') {
+          updateFields.push(`${key} = $${values.length + 1}`)
+          values.push(JSON.stringify(value))
+        } else {
+          updateFields.push(`${key} = $${values.length + 1}`)
+          values.push(value || null)
+        }
+      }
+    })
+
+    if (updateFields.length === 0) {
+      throw new Error("No fields to update")
+    }
+
+    updateFields.push(`updated_at = NOW()`)
+
+    const query = `
+      UPDATE projects 
+      SET ${updateFields.join(', ')}
+      WHERE id = $${values.length + 1}
+      RETURNING *
+    `
+
+    const [updatedProject] = await sql.unsafe(query, [...values, id])
+
+    if (!updatedProject) {
+      throw new Error("Project not found")
+    }
+
+    revalidatePath("/admin/projects")
+    revalidatePath("/projects")
+    revalidatePath("/")
+
+    return {
+      ...updatedProject,
+      tech_stack: Array.isArray(updatedProject.tech_stack) ? updatedProject.tech_stack : JSON.parse(updatedProject.tech_stack || '[]')
+    }
+  } catch (error) {
+    console.error("Error updating project:", error)
+    if (error instanceof z.ZodError) {
+      throw new Error(`Validation error: ${error.errors.map(e => e.message).join(", ")}`)
+    }
+    throw new Error("Failed to update project")
+  }
+}
+
+export async function deleteProject(id: number): Promise<void> {
+  try {
+    const [deletedProject] = await sql`
+      DELETE FROM projects 
+      WHERE id = ${id}
+      RETURNING id
+    `
+
+    if (!deletedProject) {
+      throw new Error("Project not found")
+    }
+
+    revalidatePath("/admin/projects")
+    revalidatePath("/projects")
+    revalidatePath("/")
+  } catch (error) {
+    console.error("Error deleting project:", error)
+    throw new Error("Failed to delete project")
+  }
+}
+
+export async function toggleProjectFeatured(id: number): Promise<void> {
+  try {
+    const [updatedProject] = await sql`
+      UPDATE projects 
+      SET featured = NOT featured, updated_at = NOW()
+      WHERE id = ${id}
+      RETURNING id, featured
+    `
+
+    if (!updatedProject) {
+      throw new Error("Project not found")
+    }
+
+    revalidatePath("/admin/projects")
+    revalidatePath("/projects")
+    revalidatePath("/")
+  } catch (error) {
+    console.error("Error toggling project featured status:", error)
+    throw new Error("Failed to toggle featured status")
+  }
+}

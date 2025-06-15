@@ -70,14 +70,53 @@ export const authOptions: NextAuthOptions = {
       })
     ] : [])
   ],
+  
+  // 🔥 CRITICAL SESSION CONFIGURATION FOR PERSISTENCE
+  session: {
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 hours
+    updateAge: 24 * 60 * 60, // 24 hours
+  },
+  
+  // 🔥 CRITICAL JWT CONFIGURATION
+  jwt: {
+    maxAge: 24 * 60 * 60, // 24 hours
+  },
+  
+  // 🔥 CRITICAL COOKIE CONFIGURATION FOR PERSISTENCE
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production' 
+        ? '__Secure-next-auth.session-token' 
+        : 'next-auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 // 24 hours
+      }
+    }
+  },
+  
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
+      // Add user info to token on sign in
       if (user) {
         token.role = user.role
+        token.id = user.id
       }
+      
+      // Handle token refresh
+      if (trigger === "update") {
+        // You can update token here if needed
+      }
+      
       return token
     },
+    
     async session({ session, token }) {
+      // Send properties to the client
       if (token && session.user) {
         session.user.id = token.sub as string
         session.user.role = token.role as string
@@ -85,13 +124,17 @@ export const authOptions: NextAuthOptions = {
       return session
     }
   },
+  
   pages: {
     signIn: "/admin/auth/signin",
+    error: "/admin/auth/error",
   },
-  session: {
-    strategy: "jwt",
-  },
-  secret: process.env.NEXTAUTH_SECRET,
+  
+  // 🔥 ENSURE SECRET IS SET
+  secret: process.env.NEXTAUTH_SECRET || "fallback-secret-for-development-minimum-32-chars",
+  
+  // 🔥 ADD DEBUG MODE FOR DEVELOPMENT
+  debug: process.env.NODE_ENV === 'development',
 }
 
 export default NextAuth(authOptions)

@@ -58,13 +58,156 @@
     @apply bg-card/70 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl;
   }
 
+  /* Enhanced Button Effects */
   .glow-effect {
     box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
   }
 
   .glow-effect:hover {
-    box-shadow: 0 0 30px rgba(0, 191, 255, 0.6);
+    box-shadow: 0 0 30px rgba(0, 191, 255, 0.6), 0 0 40px rgba(0, 191, 255, 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* Custom button animations */
+  @keyframes wiggle {
+    0%, 7%, 14%, 21% {
+      transform: rotate(0deg);
+    }
+    3.5% {
+      transform: rotate(-3deg);
+    }
+    10.5%, 17.5% {
+      transform: rotate(3deg);
+    }
+  }
+
+  .animate-wiggle {
+    animation: wiggle 1s ease-in-out;
+  }
+
+  /* Gradient animation for luxury buttons */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .gradient-luxury {
+    background: linear-gradient(45deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 3s ease infinite;
+  }
+
+  /* Neon button effects */
+  .neon-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .neon-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .neon-button:hover::before {
+    left: 100%;
+  }
+
+  /* Cyber tech button effects */
+  .cyber-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cyber-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+
+  .cyber-button:hover::after {
+    transform: translateX(100%);
+  }
+
+  /* Glass button enhancements */
+  .glass-button {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-button:hover {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Loading spinner enhancement */
+  .loading-spinner-enhanced {
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border-top: 2px solid #ffffff;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Floating button effect */
+  .floating-button {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .floating-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Ripple effect for buttons */
+  .ripple-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ripple-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .ripple-button:active::before {
+    width: 300px;
+    height: 300px;
   }
 
   .text-gradient {
@@ -81,7 +224,290 @@
     background-size: 200% 200%;
     animation: gradientAnimation 5s ease infinite;
   }
-}
+
+  /* Enhanced Glassmorphism Effects for Admin Forms */
+  .form-glass-card {
+    @apply bg-card/60 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl;
+    background: linear-gradient(135deg, rgba(0, 191, 255, 0.05), rgba(0, 206, 209, 0.05));
+  }
+
+  .form-glass-card:hover {
+    @apply border-white/20;
+    box-shadow: 0 8px 32px rgba(0, 191, 255, 0.1);
+  }
+
+  .input-glass {
+    @apply bg-card/50 backdrop-blur-sm border-0 focus:bg-card/80;
+    transition: all 0.3s ease;
+  }
+
+  .input-glass:focus {
+    @apply ring-2 ring-accent/50;
+    background: rgba(var(--card), 0.8);
+  }
+
+  .tech-badge {
+    @apply bg-accent/20 text-accent border-accent/30 hover:bg-accent/30;
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+  }
+
+  .tech-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 191, 255, 0.2);
+  }
+
+  .gradient-button {
+    background: linear-gradient(135deg, #00BFFF, #00CED1);
+    @apply text-white font-medium shadow-lg transition-all duration-300;
+  }
+
+  .gradient-button:hover {
+    background: linear-gradient(135deg, #1E90FF, #00BFFF);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0, 191, 255, 0.3);
+  }
+
+  .gradient-button:active {
+    transform: translateY(0);
+  }
+
+  .status-indicator {
+    @apply flex items-center gap-2 transition-all duration-200;
+  }
+
+  .status-draft { @apply text-yellow-500; }
+  .status-published { @apply text-green-500; }
+  .status-archived { @apply text-gray-500; }
+}  /* Enhanced Form Styling */
+  .form-section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: hsl(var(--accent));
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .form-section-icon {
+    padding: 0.5rem;
+    background: rgba(0, 191, 255, 0.2);
+    border-radius: 0.5rem;
+    backdrop-filter: blur(8px);
+  }
+
+  .form-error-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 0.5rem;
+    backdrop-filter: blur(8px);
+  }
+
+  .form-error-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    background: rgb(239, 68, 68);
+    border-radius: 50%;
+  }
+
+  .form-counter {
+    font-size: 0.75rem;
+    color: hsl(var(--muted-foreground));
+    background: rgba(var(--card), 0.5);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    backdrop-filter: blur(8px);
+  }
+
+  .form-preview-container {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(0, 191, 255, 0.05);
+    border: 1px solid rgba(0, 191, 255, 0.2);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .status-indicator-enhanced {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .status-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+  }
+
+  /* Loading Animation Enhancement */
+  .loading-spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  /* Form Button Enhancements */
+  .form-button-secondary {
+    background: rgba(var(--card), 0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--border), 0.5);
+    transition: all 0.2s ease;
+  }
+
+  .form-button-secondary:hover {
+    background: rgba(var(--card), 0.8);
+  }
+
+  .form-button-primary {
+    background: linear-gradient(135deg, #00BFFF, #00CED1);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 10px 20px rgba(0, 191, 255, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .form-button-primary:hover {
+    background: linear-gradient(135deg, #1E90FF, #00BFFF);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px rgba(0, 191, 255, 0.4);
+  }
+
+  /* Tech Stack Enhancements */
+  .tech-add-button {
+    background: rgba(var(--card), 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--border), 0.5);
+    height: 2.5rem;
+    justify-content: flex-start;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+  }
+
+  .tech-add-button:hover {
+    background: rgba(0, 191, 255, 0.2);
+    border-color: rgba(0, 191, 255, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .tech-stack-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .tech-stack-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .tech-stack-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .empty-state-container {
+    padding: 2.5rem;
+    text-align: center;
+    background: rgba(var(--card), 0.2);
+    border: 2px dashed rgba(var(--border), 0.5);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .empty-state-icon {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: 0 auto 0.75rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Enhanced spacing for form sections */
+  .form-section-spacing {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .form-field-spacing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .form-grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .form-checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(0, 191, 255, 0.05);
+    border: 1px solid rgba(0, 191, 255, 0.2);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .form-checkbox-enhanced {
+    height: 1.25rem;
+    width: 1.25rem;
+    border-color: hsl(var(--accent));
+  }
+
+  .form-checkbox-enhanced[data-state="checked"] {
+    background: hsl(var(--accent));
+    border-color: hsl(var(--accent));
+  }
+
+  .form-label-enhanced {
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .form-description {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Responsive improvements */
+  @media (max-width: 768px) {
+    .form-grid-2 {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .tech-stack-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+    
+    .form-button-primary {
+      width: 100%;
+    }
+  }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {

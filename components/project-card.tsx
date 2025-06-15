@@ -1,8 +1,11 @@
+'use client'
+
 import Image from "next/image"
 import Link from "next/link"
 import { ExternalLink, Github } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import TechBadge from "./tech-badge"
+import { useRenderTracker } from "@/hooks/use-render-tracker"
 
 interface ProjectCardProps {
   id: number
@@ -25,6 +28,8 @@ export default function ProjectCard({
   tech_stack,
   featured,
 }: ProjectCardProps) {
+  // Track renders for performance monitoring
+  useRenderTracker('ProjectCard', { id, title, featured })
   return (
     <div
       className={`glass-card p-6 group hover:scale-105 transition-all duration-300 ${featured ? "glow-effect" : ""}`}

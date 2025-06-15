@@ -6,6 +6,7 @@ import AdminDashboardStats from "@/components/admin/adminDashboardStats"
 import AdminRecentActivity from "@/components/admin/adminRecentActivity"
 import AdminQuickAction from "@/components/admin/adminQuickAction"
 import RoleGuard from "@/components/admin/role-guard"
+import SessionDebug from "@/components/admin/session-debug"
 import { Permission } from "@/lib/permissions"
 
 export default function AdminDashboard() {
@@ -26,6 +27,9 @@ export default function AdminDashboard() {
         </RoleGuard>
         <AdminQuickAction />
       </div>
+
+      {/* Debug Session (Development Only) */}
+      <SessionDebug />
     </div>
   )
 }

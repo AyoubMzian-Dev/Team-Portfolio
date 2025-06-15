@@ -1,4 +1,4 @@
-"use client"
+
 
 import { theme } from "@/lib/theme-config"
 

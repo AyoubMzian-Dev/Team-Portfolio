@@ -5,6 +5,8 @@ import "./globals.css"
 import ConditionalNavbar from "@/components/conditional-navbar"
 import ConditionalFooter from "@/components/conditional-footer"
 import { Toaster } from "@/components/ui/toaster"
+import { GlobalPerformanceMonitor } from "@/components/admin/global-performance-monitor"
+import AutoPerformanceTracker from "@/components/admin/auto-performance-tracker"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -28,6 +30,8 @@ export default function RootLayout({
         <main>{children}</main>
         <ConditionalFooter />
         <Toaster />
+        <AutoPerformanceTracker />
+        <GlobalPerformanceMonitor />
       </body>
     </html>
   )

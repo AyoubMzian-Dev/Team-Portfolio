@@ -1,8 +1,14 @@
+'use client'
+
 import Link from "next/link"
 import { Github, Linkedin, Twitter, Mail, Code2 } from "lucide-react"
+import { useRenderTracker } from "@/hooks/use-render-tracker"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  
+  // Track renders for performance monitoring
+  useRenderTracker('Footer', { currentYear })
 
   const socialLinks = [
     { icon: Github, href: "https://github.com/AyoubMzian-Dev", label: "GitHub" },
