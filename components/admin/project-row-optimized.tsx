@@ -1,18 +1,22 @@
 'use client'
 
-import { memo, lazy, Suspense } from 'react'
+import { memo } from 'react'
 import { Project } from '@/lib/actions/projects'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Edit, Trash2, Star, ExternalLink, Github } from 'lucide-react'
 import { useRenderTracker } from '@/hooks/use-render-tracker'
-
-// Lazy load heavy components
-const ProjectForm = lazy(() => import('./project-form').then(module => ({ default: module.ProjectForm })))
-const AlertDialog = lazy(() => import('@/components/ui/alert-dialog').then(module => ({ 
-  default: module.AlertDialog 
-})))
-const AlertDialogContent = lazy(() => import('@/components/ui/alert-dialog').then(module => ({ 
-  default: module.AlertDialogContent 
-})))
 
 // Memoized project row component to prevent unnecessary re-renders
 const ProjectRow = memo(({ 
@@ -54,40 +58,42 @@ const ProjectRow = memo(({
       <td className="p-4">
         <div className="flex flex-wrap gap-1">
           {project.tech_stack.slice(0, 3).map((tech) => (
-            <span 
-              key={tech} 
-              className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-secondary text-secondary-foreground"
-            >
+            <Badge key={tech} variant="secondary" className="text-xs">
               {tech}
-            </span>
+            </Badge>
           ))}
           {project.tech_stack.length > 3 && (
-            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs border border-border">
+            <Badge variant="outline" className="text-xs">
               +{project.tech_stack.length - 3}
-            </span>
+            </Badge>
           )}
         </div>
       </td>
       <td className="p-4">
         {project.status && (
-          <span
-            className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${
+          <Badge
+            variant={
               project.status === "published"
-                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                ? "default"
                 : project.status === "draft"
-                ? "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
-                : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-            }`}
+                ? "secondary"
+                : "destructive"
+            }
           >
             {project.status}
-          </span>
+          </Badge>
         )}
       </td>
       <td className="p-4">
-        <button
-          onClick={() => onToggleFeatured(project.id)}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            console.log('⭐ Star button clicked for project:', project.id);
+            onToggleFeatured(project.id);
+          }}
           disabled={loading[project.id]}
-          className="p-2 hover:bg-accent rounded-md transition-colors disabled:opacity-50"
+          className="p-2"
         >
           <Star
             className={`h-4 w-4 ${
@@ -96,68 +102,87 @@ const ProjectRow = memo(({
                 : "text-muted-foreground"
             }`}
           />
-        </button>
+        </Button>
       </td>
       <td className="p-4">
         <div className="flex space-x-1">
           {project.demo_url && (
-            <a
-              href={project.demo_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 hover:bg-accent rounded-md transition-colors"
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="p-2"
             >
-              <ExternalLink className="h-4 w-4" />
-            </a>
+              <a
+                href={project.demo_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </Button>
           )}
           {project.github_url && (
-            <a
-              href={project.github_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 hover:bg-accent rounded-md transition-colors"
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="p-2"
             >
-              <Github className="h-4 w-4" />
-            </a>
+              <a
+                href={project.github_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github className="h-4 w-4" />
+              </a>
+            </Button>
           )}
         </div>
       </td>
       <td className="p-4">
         <div className="flex space-x-1">
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => onEdit(project)}
-            className="p-2 hover:bg-accent rounded-md transition-colors"
+            className="p-2"
           >
             <Edit className="h-4 w-4" />
-          </button>
+          </Button>
           
-          <Suspense fallback={<div className="p-2 w-8 h-8 bg-muted animate-pulse rounded"></div>}>
-            <AlertDialog>
-              <button className="p-2 hover:bg-accent rounded-md transition-colors text-red-600 hover:text-red-700">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="p-2 text-red-600 hover:text-red-700"
+              >
                 <Trash2 className="h-4 w-4" />
-              </button>
-              <AlertDialogContent>
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold mb-2">Delete Project</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Are you sure you want to delete "{project.title}"? This action cannot be undone.
-                  </p>
-                  <div className="flex justify-end gap-2">
-                    <button className="px-3 py-2 text-sm rounded-md border border-border hover:bg-accent">
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => onDelete(project.id)}
-                      disabled={loading[project.id]}
-                      className="px-3 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
-                    >
-                      {loading[project.id] ? "Deleting..." : "Delete"}
-                    </button>
-                  </div>
-                </div>
-              </AlertDialogContent>
-            </AlertDialog>
-          </Suspense>
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete Project</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete "{project.title}"? This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => {
+                    console.log('🗑️ Delete button clicked for project:', project.id);
+                    onDelete(project.id);
+                  }}
+                  disabled={loading[project.id]}
+                  className="bg-red-600 hover:bg-red-700"
+                >
+                  {loading[project.id] ? "Deleting..." : "Delete"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </td>
     </tr>

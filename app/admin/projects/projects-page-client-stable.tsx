@@ -42,7 +42,9 @@ const ProjectsHeader = memo(({
         <span>Last updated: {lastUpdatedTime}</span>
         {isRefreshing && (
           <>
-            <span>•</span>
+            <span style={
+              { marginLeft: '0.5rem', marginRight: '0.5rem' }
+            }>•</span>
             <div className="flex items-center gap-1">
               <RefreshCw className="h-3 w-3 animate-spin" />
               <span>Refreshing...</span>
@@ -110,7 +112,7 @@ const ProjectsStats = memo(({
   if (totalCount === 0) return null
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 p-1 md:grid-cols-3 gap-6">
       <Card className="form-glass-card">
         <CardContent className="p-6 text-center">
           <div className="text-2xl font-bold text-accent">{totalCount}</div>
@@ -183,31 +185,53 @@ export function ProjectsPageClientStable({ initialProjects }: ProjectsPageClient
     });
   }, [router]);
 
-  const handleDeleteProject = useCallback((projectId: number) => {
-    console.log("🗑️ Project deleted successfully, updating UI...");
-    
-    setProjects(prev => prev.filter(p => p.id !== projectId));
-    setLastUpdated(new Date());
-    toast.success("Project deleted successfully!");
-    
-    startTransition(() => {
-      router.refresh();
-    });
+  const handleDeleteProject = useCallback(async (projectId: number) => {
+    try {
+      console.log("🗑️ Deleting project...", projectId);
+      
+      // Import the deleteProject function dynamically to avoid server/client issues
+      const { deleteProject } = await import('@/lib/actions/projects');
+      await deleteProject(projectId);
+      
+      console.log("🗑️ Project deleted successfully, updating UI...");
+      
+      setProjects(prev => prev.filter(p => p.id !== projectId));
+      setLastUpdated(new Date());
+      toast.success("Project deleted successfully!");
+      
+      startTransition(() => {
+        router.refresh();
+      });
+    } catch (error) {
+      console.error("Failed to delete project:", error);
+      toast.error("Failed to delete project");
+    }
   }, [router]);
 
-  const handleToggleFeatured = useCallback((projectId: number) => {
-    console.log("⭐ Project featured status toggled, updating UI...");
-    
-    setProjects(prev => 
-      prev.map(p => 
-        p.id === projectId ? { ...p, featured: !p.featured } : p
-      )
-    );
-    setLastUpdated(new Date());
-    
-    startTransition(() => {
-      router.refresh();
-    });
+  const handleToggleFeatured = useCallback(async (projectId: number) => {
+    try {
+      console.log("⭐ Toggling project featured status...", projectId);
+      
+      // Import the toggleProjectFeatured function dynamically to avoid server/client issues
+      const { toggleProjectFeatured } = await import('@/lib/actions/projects');
+      const updatedProject = await toggleProjectFeatured(projectId);
+      
+      console.log("⭐ Project featured status toggled, updating UI...");
+      
+      setProjects(prev => 
+        prev.map(p => 
+          p.id === projectId ? updatedProject : p
+        )
+      );
+      setLastUpdated(new Date());
+      
+      startTransition(() => {
+        router.refresh();
+      });
+    } catch (error) {
+      console.error("Failed to toggle featured status:", error);
+      toast.error("Failed to update project");
+    }
   }, [router]);
 
   const handleManualRefresh = useCallback(() => {

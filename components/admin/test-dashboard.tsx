@@ -13,12 +13,14 @@ import {
   Zap,
   Activity
 } from 'lucide-react'
-import { TEST_SUITES, ComponentTestResult, TestSuite } from '@/lib/test-utils'
+import { TEST_SUITES, ComponentTestResult, TestSuite, ComponentTest } from '@/lib/test-utils'
 
 interface TestDashboardProps {
   selectedSuiteId?: string
   results?: ComponentTestResult[]
 }
+
+type TestType = 'render' | 'performance' | 'memory' | 'interaction'
 
 export function TestDashboard({ selectedSuiteId, results = [] }: TestDashboardProps) {
   const selectedSuite = selectedSuiteId ? TEST_SUITES.find(s => s.id === selectedSuiteId) : null
@@ -107,7 +109,7 @@ function TestSuiteCard({ suite }: { suite: TestSuite }) {
   )
 }
 
-function TestItemCard({ test }: { test: any }) {
+function TestItemCard({ test }: { test: ComponentTest }) {
   return (
     <div className="border rounded-lg p-4 bg-card/50">
       <div className="flex items-center justify-between mb-2">
@@ -199,8 +201,8 @@ function SuiteStatusBadge({ status }: { status: TestSuite['status'] }) {
   return <Badge variant={config.variant}>{config.text}</Badge>
 }
 
-function TestTypeBadge({ type }: { type: string }) {
-  const variants = {
+function TestTypeBadge({ type }: { type: TestType }) {
+  const variants: Record<TestType, { color: string; text: string }> = {
     render: { color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200', text: 'Render' },
     performance: { color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200', text: 'Performance' },
     memory: { color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200', text: 'Memory' },
@@ -215,8 +217,8 @@ function TestTypeBadge({ type }: { type: string }) {
   )
 }
 
-function TestTypeIcon({ type, count }: { type: string, count: number }) {
-  const icons = {
+function TestTypeIcon({ type, count }: { type: TestType, count: number }) {
+  const icons: Record<TestType, React.ReactElement> = {
     render: <Zap className="h-3 w-3" />,
     performance: <Clock className="h-3 w-3" />,
     memory: <MemoryStick className="h-3 w-3" />,

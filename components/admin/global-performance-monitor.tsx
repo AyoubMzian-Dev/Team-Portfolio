@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { GlobalTestPopup } from './global-test-popup'
+import { EnhancedDraggableTestWindow } from './enhanced-draggable-test-window'
 import { useRenderTracking } from '@/hooks/use-render-tracker'
 import { 
   Activity,
   AlertTriangle,
   Monitor,
-  Zap
+  Zap,
+  Server
 } from 'lucide-react'
 
 export function GlobalPerformanceMonitor() {
@@ -153,8 +154,8 @@ export function GlobalPerformanceMonitor() {
         </div>
       </div>
 
-      {/* Global Test Popup */}
-      <GlobalTestPopup
+      {/* Enhanced Draggable Test Window */}
+      <EnhancedDraggableTestWindow
         isOpen={isPopupOpen}
         onClose={handleClose}
         onMinimize={handleMinimize}

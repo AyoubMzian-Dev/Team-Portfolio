@@ -1,3 +1,6 @@
+
+const blogs = fetch('https://api.example.com/blogs')
+
 export default function BlogPage() {
   return (
     <div>

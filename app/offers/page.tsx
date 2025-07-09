@@ -123,7 +123,7 @@ export default function OffersPage() {
                 <p className="text-muted-foreground mb-6">{plan.description}</p>
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center text-sm">
+                    <li key={featureIndex} className="flex items-center text-foreground text-sm">
                       <Check className="h-4 w-4 text-accent mr-2" />
                       {feature}
                     </li>

@@ -30,6 +30,12 @@
     --accent: 195 100% 60%;
     --accent-foreground: 0 0% 98%;
 
+    --green: 142 71% 45%;
+    --green-foreground: 0 0% 98%;
+
+    --purple: 262 83% 58%;
+    --purple-foreground: 0 0% 98%;
+
     --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
@@ -41,7 +47,7 @@
   }
 }
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border;
   }
@@ -51,7 +57,7 @@
     background: linear-gradient(135deg, hsl(220, 30%, 5%), hsl(220, 25%, 8%));
     min-height: 100vh;
   }
-}
+} */
 
 @layer components {
   .glass-card {
@@ -184,6 +190,13 @@
   .floating-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .buttons{
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   /* Ripple effect for buttons */

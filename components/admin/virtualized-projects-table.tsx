@@ -43,22 +43,38 @@ export const VirtualizedProjectsTable = memo(({
   }, [])
 
   const handleDelete = useCallback(async (projectId: number) => {
-    if (!onDelete) return
+    console.log('🗑️ VirtualizedProjectsTable handleDelete called for project:', projectId);
+    if (!onDelete) {
+      console.log('❌ No onDelete callback provided to VirtualizedProjectsTable');
+      return;
+    }
     
     setLoading(prev => ({ ...prev, [projectId]: true }))
     try {
+      console.log('🗑️ Calling parent onDelete callback...');
       await onDelete(projectId)
+      console.log('✅ Parent onDelete callback completed successfully');
+    } catch (error) {
+      console.error('❌ Error in VirtualizedProjectsTable handleDelete:', error);
     } finally {
       setLoading(prev => ({ ...prev, [projectId]: false }))
     }
   }, [onDelete])
 
   const handleToggleFeatured = useCallback(async (projectId: number) => {
-    if (!onToggleFeatured) return
+    console.log('⭐ VirtualizedProjectsTable handleToggleFeatured called for project:', projectId);
+    if (!onToggleFeatured) {
+      console.log('❌ No onToggleFeatured callback provided to VirtualizedProjectsTable');
+      return;
+    }
     
     setLoading(prev => ({ ...prev, [projectId]: true }))
     try {
+      console.log('⭐ Calling parent onToggleFeatured callback...');
       await onToggleFeatured(projectId)
+      console.log('✅ Parent onToggleFeatured callback completed successfully');
+    } catch (error) {
+      console.error('❌ Error in VirtualizedProjectsTable handleToggleFeatured:', error);
     } finally {
       setLoading(prev => ({ ...prev, [projectId]: false }))
     }

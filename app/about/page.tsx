@@ -12,7 +12,21 @@ async function getTeamMembers() {
 }
 
 export default async function AboutPage() {
-  const teamMembers = await getTeamMembers()
+  const rawMembers = await getTeamMembers()
+  // Ensure each member has the required properties for TeamMemberCardProps
+  const teamMembers = rawMembers.map((member: any) => ({
+    id: member.id,
+    name: member.name,
+    role: member.role,
+    bio: member.bio,
+    image_url: member.image_url,
+    // Parse skills if stored as a comma-separated string, or use as-is if already an array
+    skills: Array.isArray(member.skills)
+      ? member.skills
+      : typeof member.skills === "string"
+        ? member.skills.split(",").map((s: string) => s.trim())
+        : [],
+  }))
 
   const companyValues = [
     {
@@ -49,7 +63,7 @@ export default async function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen  bg-background pt-20">
       {/* Hero Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,7 +80,7 @@ export default async function AboutPage() {
       {/* Team Members */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto flex flex-col justify-center text-center px-4 sm:px-6 lg:px-8">
-          <SectionHeading title="Meet the Team"  subtitle="The talented individuals behind our success" flex/>
+          <SectionHeading title="Meet the Team"  subtitle="The talented individuals behind our success" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member) => (
@@ -108,7 +122,7 @@ export default async function AboutPage() {
               <TechBadge
                 key={tech}
                 tech={tech}
-                variant={index % 3 === 0 ? "accent" : index % 3 === 1 ? "green" : "purple"}
+                variant={index % 3 === 0 ? "accent" : index % 3 === 1 ? "teal" : "cyan"}
               />
             ))}
           </div>

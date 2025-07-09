@@ -39,6 +39,14 @@ const config: Config = {
           teal: theme.colors.accentTeal,
           cyan: theme.colors.accentCyan,
         },
+        green: {
+          DEFAULT: theme.colors.green,
+          foreground: theme.colors.greenForeground,
+        },
+        purple: {
+          DEFAULT: theme.colors.purple,
+          foreground: theme.colors.purpleForeground,
+        },
         muted: {
           DEFAULT: theme.colors.border,
           foreground: theme.colors.textMuted,
@@ -51,11 +59,15 @@ const config: Config = {
       backdropBlur: {
         xs: "2px",
       },
+      button: {
+        "background": "blue",
+      },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",
         "slide-up": "slideUp 0.5s ease-out",
         glow: "glow 2s ease-in-out infinite alternate",
       },
+      
       keyframes: {
         fadeIn: {
           "0%": { opacity: "0" },
