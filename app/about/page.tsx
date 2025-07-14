@@ -11,6 +11,8 @@ async function getTeamMembers() {
   return members
 }
 
+export const dynamic = "force-dynamic"
+
 export default async function AboutPage() {
   const rawMembers = await getTeamMembers()
   // Ensure each member has the required properties for TeamMemberCardProps
