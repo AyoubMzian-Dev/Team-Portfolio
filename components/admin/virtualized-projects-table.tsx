@@ -7,6 +7,7 @@ import { FixedSizeList as List } from 'react-window'
 
 interface VirtualizedProjectsTableProps {
   projects: Project[]
+  onEdit?: (project: Project) => void
   onUpdate?: (project: Project) => void
   onDelete?: (projectId: number) => void
   onToggleFeatured?: (projectId: number) => void
@@ -30,6 +31,7 @@ TableHeader.displayName = 'TableHeader'
 
 export const VirtualizedProjectsTable = memo(({
   projects,
+  onEdit,
   onUpdate,
   onDelete,
   onToggleFeatured
@@ -38,9 +40,14 @@ export const VirtualizedProjectsTable = memo(({
 
   // Memoized handlers to prevent re-renders
   const handleEdit = useCallback((project: Project) => {
-    // Implementation for edit
-    console.log('Editing project:', project.id)
-  }, [])
+    console.log('✏️ VirtualizedProjectsTable handleEdit called for project:', project.id);
+    if (!onEdit) {
+      console.log('❌ No onEdit callback provided to VirtualizedProjectsTable');
+      return;
+    }
+    console.log('✏️ Calling parent onEdit callback...');
+    onEdit(project);
+  }, [onEdit])
 
   const handleDelete = useCallback(async (projectId: number) => {
     console.log('🗑️ VirtualizedProjectsTable handleDelete called for project:', projectId);
@@ -113,7 +120,7 @@ export const VirtualizedProjectsTable = memo(({
 
   if (!shouldVirtualize) {
     return (
-      <div className="rounded-md border">
+      <div className="rounded-md border-border border">
         <table className="w-full">
           <TableHeader />
           <tbody>

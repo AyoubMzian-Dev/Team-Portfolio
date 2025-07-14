@@ -38,6 +38,8 @@ export default function ProjectCard({
         <Image
           src={image_url || "/placeholder.svg"}
           alt={title}
+          loading="lazy"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           width={500}
           height={300}
           className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"

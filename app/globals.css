@@ -539,3 +539,64 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #00ced1;
 }
+
+/* Performance-optimized animations for smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* High-performance slide animations using transform3d for GPU acceleration */
+  @keyframes slideInFromTop {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -30px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translate3d(-30px, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes slideInFromRight {
+    from {
+      opacity: 0;
+      transform: translate3d(30px, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes slideInFromBottom {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 30px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  /* Optimized hover effects with hardware acceleration */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  /* Smooth scroll container optimization */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }

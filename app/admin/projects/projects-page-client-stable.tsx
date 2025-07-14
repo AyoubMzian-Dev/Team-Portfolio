@@ -38,7 +38,7 @@ const ProjectsHeader = memo(({
         Create, edit, and manage your portfolio projects with our advanced management system
       </p>
       <div className="w-24 h-1 bg-gradient-to-r from-accent to-accent/60 rounded-full"></div>
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+      {/* <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <span>Last updated: {lastUpdatedTime}</span>
         {isRefreshing && (
           <>
@@ -51,11 +51,11 @@ const ProjectsHeader = memo(({
             </div>
           </>
         )}
-      </div>
+      </div> */}
     </div>
     
     <div className="flex flex-col sm:flex-row gap-3">
-      <EnhancedButton 
+      {/* <EnhancedButton 
         variant="outline" 
         size="lg" 
         icon={<RefreshCw className={isRefreshing ? "animate-spin" : ""} />} 
@@ -64,7 +64,7 @@ const ProjectsHeader = memo(({
         className="shadow-lg"
       >
         {isRefreshing ? "Refreshing..." : "Refresh"}
-      </EnhancedButton>
+      </EnhancedButton> */}
       
       <EnhancedButton 
         variant="gradient" 
@@ -140,6 +140,8 @@ ProjectsStats.displayName = 'ProjectsStats'
 export function ProjectsPageClientStable({ initialProjects }: ProjectsPageClientProps) {
   const [projects, setProjects] = useState<Project[]>(initialProjects);
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -178,6 +180,8 @@ export function ProjectsPageClientStable({ initialProjects }: ProjectsPageClient
       prev.map(p => p.id === updatedProject.id ? updatedProject : p)
     );
     setLastUpdated(new Date());
+    setShowEditDialog(false);
+    setEditingProject(null);
     toast.success("Project updated successfully! ✨");
     
     startTransition(() => {
@@ -250,6 +254,24 @@ export function ProjectsPageClientStable({ initialProjects }: ProjectsPageClient
     setShowAddDialog(true);
   }, []);
 
+  const handleEditProject = useCallback((project: Project) => {
+    console.log("✏️ Opening edit dialog for project:", project.id, project.title);
+    setEditingProject(project);
+    setShowEditDialog(true);
+  }, []);
+
+  const handleEditDialogOpenChange = useCallback((open: boolean) => {
+    if (!open) {
+      setEditingProject(null);
+    }
+    setShowEditDialog(open);
+  }, []);
+
+  const handleEditCancel = useCallback(() => {
+    setShowEditDialog(false);
+    setEditingProject(null);
+  }, []);
+
   return (
     <div className="space-y-8 p-6">
       {/* Header Section */}
@@ -281,7 +303,7 @@ export function ProjectsPageClientStable({ initialProjects }: ProjectsPageClient
             )}
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className=' rounded-lg '>
           {projects.length === 0 ? (
             <div className="text-center py-16">
               <div className="p-8 form-glass-card bg-card/20 rounded-xl border-2 border-dashed border-border/50 max-w-md mx-auto">
@@ -314,6 +336,7 @@ export function ProjectsPageClientStable({ initialProjects }: ProjectsPageClient
           ) : (
             <VirtualizedProjectsTable 
               projects={projects} 
+              onEdit={handleEditProject}
               onUpdate={handleUpdateProject}
               onDelete={handleDeleteProject}
               onToggleFeatured={handleToggleFeatured}
@@ -336,6 +359,19 @@ export function ProjectsPageClientStable({ initialProjects }: ProjectsPageClient
             onSuccess={handleAddSuccess}
             onCancel={() => setShowAddDialog(false)}
           />
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Project Dialog */}
+      <Dialog open={showEditDialog} onOpenChange={handleEditDialogOpenChange}>
+        <DialogContent className="form-glass-card max-w-5xl max-h-[90vh] overflow-y-auto border-accent/20">
+          {editingProject && (
+            <ProjectForm 
+              project={editingProject}
+              onSuccess={handleUpdateProject}
+              onCancel={handleEditCancel}
+            />
+          )}
         </DialogContent>
       </Dialog>
     </div>

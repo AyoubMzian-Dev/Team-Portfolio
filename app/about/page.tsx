@@ -63,9 +63,9 @@ export default async function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen  bg-background pt-20">
+    <div className="min-h-screen pt-25  ">
       {/* Hero Section */}
-      <section className="py-20">
+      <section className="lg:py-40 py-32 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-bold text-gradient mb-6">About Our Team</h1>

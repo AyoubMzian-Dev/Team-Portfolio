@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { createProject, updateProject, Project } from "@/lib/actions/projects"
 import { Button } from "@/components/ui/button"
 import { EnhancedButton } from "@/components/ui/enhanced-button"
@@ -63,8 +63,61 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
   const [newTech, setNewTech] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  
+  // Refs for smooth scrolling to sections
+  const formRef = useRef<HTMLFormElement>(null)
+  const basicInfoRef = useRef<HTMLDivElement>(null)
+  const settingsRef = useRef<HTMLDivElement>(null)
+  const linksRef = useRef<HTMLDivElement>(null)
+  const techStackRef = useRef<HTMLDivElement>(null)
 
   const isEditing = !!project
+
+  // Smooth scroll utility function with performance optimization
+  const scrollToSection = useCallback((ref: React.RefObject<HTMLDivElement>) => {
+    if (ref.current) {
+      // Use requestAnimationFrame for better performance
+      requestAnimationFrame(() => {
+        ref.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        })
+      })
+      
+      // Add highlight effect without blocking the main thread
+      const timeoutId = setTimeout(() => {
+        if (ref.current) {
+          ref.current.style.transform = 'scale(1.02)'
+          ref.current.style.transition = 'transform 0.3s ease'
+          
+          const resetTimeoutId = setTimeout(() => {
+            if (ref.current) {
+              ref.current.style.transform = ''
+              ref.current.style.transition = ''
+            }
+          }, 800)
+          
+          return () => clearTimeout(resetTimeoutId)
+        }
+      }, 400)
+      
+      return () => clearTimeout(timeoutId)
+    }
+  }, [])
+
+  // Auto-scroll to first error section
+  const scrollToFirstError = useCallback(() => {
+    if (errors.title || errors.description) {
+      scrollToSection(basicInfoRef)
+    } else if (errors.category) {
+      scrollToSection(settingsRef)
+    } else if (errors.demo_url || errors.github_url || errors.image_url) {
+      scrollToSection(linksRef)
+    } else if (errors.tech_stack) {
+      scrollToSection(techStackRef)
+    }
+  }, [errors, scrollToSection])
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {}
@@ -125,6 +178,8 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
     if (!validateForm()) {
       console.error("❌ Form validation failed")
       toast.error("Please fix the form errors before submitting")
+      // Smooth scroll to first error
+      setTimeout(() => scrollToFirstError(), 100)
       return
     }
 
@@ -234,10 +289,11 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <form onSubmit={handleSubmit} className="space-y-8">
+    <div className="max-w-4xl mx-auto p-6 scroll-smooth">
+      
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
         {/* Header Section */}
-        <div className="text-center space-y-3 mb-10">
+        <div className="text-center space-y-3 mb-10 opacity-0 animate-[slideInFromTop_0.8s_ease-out_0.1s_forwards]">
           <h1 className="text-3xl font-bold text-gradient">
             {isEditing ? "Edit Project" : "Create New Project"}
           </h1>
@@ -245,10 +301,11 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
             {isEditing ? "Update your project details and keep your portfolio current" : "Add a new project to showcase your skills and experience"}
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-accent to-accent/60 mx-auto rounded-full"></div>
+          
         </div>
 
         {/* Basic Information Card */}
-        <Card className="form-glass-card glow-effect">
+        <Card ref={basicInfoRef} className="form-glass-card glow-effect opacity-0 animate-[slideInFromLeft_0.8s_ease-out_0.2s_forwards] transition-transform duration-300 hover:translate-y-[-2px] will-change-transform">
           <CardHeader className="pb-6">
             <CardTitle className="flex items-center gap-3 text-accent text-xl">
               <div className="p-2 bg-accent/20 rounded-lg backdrop-blur-sm">
@@ -333,7 +390,7 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
         </Card>
 
         {/* Project Settings Card */}
-        <Card className="form-glass-card glow-effect">
+        <Card ref={settingsRef} className="form-glass-card glow-effect opacity-0 animate-[slideInFromRight_0.8s_ease-out_0.3s_forwards] transition-transform duration-300 hover:translate-y-[-2px] will-change-transform">
           <CardHeader className="pb-6">
             <CardTitle className="flex items-center gap-3 text-accent text-xl">
               <div className="p-2 bg-accent/20 rounded-lg backdrop-blur-sm">
@@ -434,7 +491,7 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
         </Card>
 
         {/* URLs Card */}
-        <Card className="form-glass-card glow-effect">
+        <Card ref={linksRef} className="form-glass-card glow-effect opacity-0 animate-[slideInFromLeft_0.8s_ease-out_0.4s_forwards] transition-transform duration-300 hover:translate-y-[-2px] will-change-transform">
           <CardHeader className="pb-6">
             <CardTitle className="flex items-center gap-3 text-accent text-xl">
               <div className="p-2 bg-accent/20 rounded-lg backdrop-blur-sm">
@@ -542,7 +599,7 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
         </Card>
 
         {/* Technology Stack Card */}
-        <Card className="form-glass-card glow-effect">
+        <Card ref={techStackRef} className="form-glass-card glow-effect opacity-0 animate-[slideInFromRight_0.8s_ease-out_0.5s_forwards] transition-transform duration-300 hover:translate-y-[-2px] will-change-transform">
           <CardHeader className="pb-6">
             <CardTitle className="flex items-center gap-3 text-accent text-xl">
               <div className="p-2 bg-accent/20 rounded-lg backdrop-blur-sm">
@@ -642,7 +699,7 @@ export function ProjectForm({ project, onSuccess, onCancel }: ProjectFormProps) 
         </Card>
 
         {/* Submit Actions */}
-        <Card className="form-glass-card bg-accent/5 border-accent/20">
+        <Card className="form-glass-card bg-accent/5 border-accent/20 opacity-0 animate-[slideInFromBottom_0.8s_ease-out_0.6s_forwards] transition-transform duration-300 hover:translate-y-[-2px] will-change-transform">
           <CardContent className="pt-8">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
               <div className="text-center sm:text-left">

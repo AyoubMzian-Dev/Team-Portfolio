@@ -1,6 +1,7 @@
 import SectionHeading from "@/components/section-heading"
 import ProjectCard from "@/components/project-card"
 import { sql } from "@/lib/db"
+export const revalidate = 3600;
 
 async function getProjects() {
   const projects = await sql`
@@ -14,10 +15,10 @@ export default async function ProjectsPage() {
   const projects = await getProjects()
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen px-12 pt-20">
       {/* Hero Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className=" w-full sm:py-12 lg:py-20">
+        <div className="max-w-7xl mx-auto  sm:px-6 lg:px-8">
           <SectionHeading
             title="Our Projects"
             subtitle="Explore our portfolio of innovative web applications and digital solutions"
@@ -27,7 +28,7 @@ export default async function ProjectsPage() {
       </section>
 
       {/* Projects Grid */}
-      <section className="py-20">
+      <section className="sm:py-12 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project) => (

@@ -12,7 +12,7 @@ export default async function AdminLayout({
   const session = await getServerSession(authOptions)
   
   return (
-    <Providers session={session}>
+    <Providers session={session} >
       <AdminLayoutClient>
         {children}
       </AdminLayoutClient>
